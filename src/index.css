@@ -40,14 +40,18 @@ img {
   margin-right: auto;
   width: 50%;
   cursor: crosshair;
+  z-index: 0;
 }
 
 .menu-container {
   visibility: hidden;
 }
 
-menu {
+.menu:hover {
+  display: block;
   color: white;
+  overflow: hidden;
+  position: inherit;
 }
 
 .hidden {
@@ -60,7 +64,11 @@ menu {
 
 select {
   background-color: red;
+  /* display: block; */
   color: white;
+  /* overflow: hidden; */
+  position: fixed;
+  z-index: 1;
 }
 
 /* :root {
