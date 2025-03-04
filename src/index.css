@@ -38,16 +38,35 @@ img {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 50%;
+  max-width: 3000px;
+  max-height: 2000px;
+}
+
+img:hover {
   cursor: crosshair;
-  z-index: 0;
 }
 
 .menu-container {
   visibility: hidden;
 }
 
-.menu:hover {
+.container{
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  overflow: scroll;
+  width: 100%;
+  height: 100%;
+}
+
+/* .menu:hover {
+  display: block;
+  color: white;
+  overflow: hidden;
+  position: inherit;
+} */
+
+.menu2:hover {
   display: block;
   color: white;
   overflow: hidden;
@@ -62,13 +81,40 @@ img {
   visibility: visible;
 }
 
-select {
-  background-color: red;
-  /* display: block; */
-  color: white;
+.menu {
+  display: grid;
+  /* background-color: oklch(0.293 0.136 325.661); */
+  grid-template-columns: 1fr;
+  grid-template-rows: 0.2fr 0.2fr 0.2fr;
+  width: 120px;
+  height: 175px;
+  /* color: white; */
   /* overflow: hidden; */
   position: fixed;
-  z-index: 1;
+  /* z-index: 1; */
+}
+
+button {
+  background-color: oklch(0.208 0.042 265.755);
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  /* margin: 4px 2px; */
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: oklch(0.372 0.044 257.287);
+  transition: 0.3s;
+}
+
+area {
+  background-color: red;
+  cursor: crosshair;
 }
 
 /* :root {
