@@ -9,19 +9,19 @@ export default function Index() {
  
     function pointerDown(event: React.MouseEvent<HTMLElement>) {
         setClicked(true);
-        if (clicked == true) {
+        if (clicked) {
             console.log(`X: ${event.pageX}, Y: ${event.pageY}`)
             setVisibility("visible");
             setStyleTop(event.clientY - 20);
             setStyleLeft(event.clientX + 10);
             setClicked(false);
-        } else if (clicked == false) {
+        } else {
             setVisibility("hidden");
         }       
     }
 
-    function isWaldo(event: React.MouseEvent<HTMLElement>) {
-        
+    function validate(event: React.MouseEvent<Event>) {
+
     }
 
     function waldo(event: React.MouseEvent<HTMLElement>) {
@@ -33,9 +33,9 @@ export default function Index() {
         <>
             <div className="content">
                 <div className="container">
-                    <img src="925901.jpg" useMap="#areamap" onClick={pointerDown}/>   
+                    <img src="925902.jpg" useMap="#areamap" onClick={pointerDown}/>   
                 <map name="areamap">
-                    <area coords="2531,1348,2605,1473" alt="map" href="null" onClick={waldo}/>
+                    <area coords="1657,945,1618,865" alt="map" href="null" onClick={waldo}/>
                 </map>
                 <div className={visibility}>
                     <Menu
@@ -60,13 +60,3 @@ function Menu({ styleTop, styleLeft }) {
         </>
     )
 }
-
-// function Map({ waldo }) {
-//     return (
-//         <>
-//             <map name="areamap">
-//                 <area shape="rect" coords="1629, 1053, 1662, 1123" href="925901.jpg" onClick={waldo}/>
-//             </map>
-//         </>
-//     )
-// }
