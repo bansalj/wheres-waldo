@@ -10,12 +10,15 @@ body {
 
 .header {
   display: grid;
+  position: sticky;
+  top: 0%;
   justify-items: center;
   align-items: center;
   grid-template-columns: 0.7fr 0.1fr 0.1fr 0.1fr;
   background-color: oklch(0.208 0.042 265.755);
   font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
   height: 15vh;
+  z-index: 1;
 }
 
 main {
