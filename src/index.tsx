@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, AreaHTMLAttributes } from "react";
 
 export default function Index() {
 
@@ -6,22 +6,30 @@ export default function Index() {
     const [styleTop, setStyleTop] = useState(0);
     const [styleLeft, setStyleLeft] = useState(0);
     const [clicked, setClicked] = useState(false);
-    const [character1, setCharater1] = useState([]);
-    const [character2, setCharater2] = useState([]);
-    const [character3, setCharater3] = useState([]);
+    const [character1, setCharater1] = useState<any[]>([]);
+    const [character2, setCharater2] = useState<any[]>([]);
+    const [character3, setCharater3] = useState<any[]>([]);
  
     function pointerDown(event: React.MouseEvent<HTMLElement>) {
         event.preventDefault();
         setClicked(true);
         if (clicked) {
-            console.log(`X: ${event.pageX}, Y: ${event.pageY}`)
-            setVisibility("visible");
-            setStyleTop(event.clientY - 20);
-            setStyleLeft(event.clientX + 10);
+            menuPosition(event);
+            if(event.target.coords) {
+                check(event.target.coords);
+            }
+            
             setClicked(false);
         } else {
             setVisibility("hidden");
         }       
+    }
+
+    function menuPosition(event: React.MouseEvent<HTMLElement>) {
+        console.log(`X: ${event.pageX}, Y: ${event.pageY}`)
+        setVisibility("visible");
+        setStyleTop(event.clientY - 20);
+        setStyleLeft(event.clientX + 10);
     }
 
     useEffect(() => {
@@ -31,8 +39,6 @@ export default function Index() {
         })
         .then((Response) => Response.json())
         .then((character:any) => {
-            console.log(character) 
-            console.log(character[0].name)
             setCharater1(character[0]);
             setCharater2(character[1]);
             setCharater3(character[2]); 
@@ -40,10 +46,24 @@ export default function Index() {
         .catch(error => console.error("Nerwork Error", error));
     },[setCharater1, setCharater2, setCharater3])
 
-    // function waldo(event: React.MouseEvent<HTMLElement>) {
-    //     event.preventDefault();
-    //     console.log("You found Waldo!")      
-    // }
+
+    function check(event:any) {
+        switch(event) {
+            case `${character1.coord}`:
+                console.log(`You found ${character1.name}!`);
+                break;
+            case `${character2.coord}`:
+                console.log(`You found ${character2.name}!`);
+                break;
+            case `${character3.coord}`:
+                console.log(`You found ${character3.name}!`);
+                break;
+        }
+    }
+
+    const validate = async(event: React.MouseEvent<HTMLElement>) => {
+        event.preventDefault()
+    }
 
     return (
         <>
@@ -51,7 +71,9 @@ export default function Index() {
                 <div className="container">
                     <img src="925902.jpg" useMap="#areamap" onClick={pointerDown}/>   
                 <map name="areamap">
-                    <area coords="1657,945,1618,865" alt="map" href="null" onClick={pointerDown}/>
+                    <area coords={String(character1.coord)} alt="Waldo" href="null" onClick={pointerDown}/>
+                    <area coords={String(character2.coord)} alt="map2" href="null" onClick={pointerDown}/>
+                    <area coords={String(character3.coord)} alt="map3" href="null" onClick={pointerDown}/>
                 </map>
                 <div className={visibility}>
                     <Menu
