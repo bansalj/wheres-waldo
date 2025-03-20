@@ -1,11 +1,11 @@
-import React, { useState, useEffect, AreaHTMLAttributes } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function Index() {
 
-    const [visibility, setVisibility] = useState("hidden");
     const [styleTop, setStyleTop] = useState(0);
     const [styleLeft, setStyleLeft] = useState(0);
-    const [clicked, setClicked] = useState(false);
+    // const [clicked, setClicked] = useState(false);
+    const [visibility, setVisibility] = useState("hidden");
     const [character1, setCharater1] = useState<any[]>([]);
     const [character2, setCharater2] = useState<any[]>([]);
     const [character3, setCharater3] = useState<any[]>([]);
@@ -27,21 +27,20 @@ export default function Index() {
  
     function pointerDown(event: React.MouseEvent<HTMLElement>) {
         event.preventDefault();
-        setClicked(true);
         setSelectedName(event.target.alt);
-        console.log(selectedName);
-        if (clicked) {
-            menuPosition(event);
-            setClicked(false);
-        } else {
-            setVisibility("hidden");
-        }       
+        // setClicked(true);
+        menuPosition(event);
     }
 
     function menuPosition(event: React.MouseEvent<HTMLElement>) {
-        setVisibility("visible");
-        setStyleTop(event.clientY - 20);
-        setStyleLeft(event.clientX + 10);
+        if (visibility == "hidden") {
+            setVisibility("visible");
+            setStyleTop(event.clientY - 20);
+            setStyleLeft(event.clientX + 10);
+            // setClicked(false);
+        } else {
+            setVisibility("hidden");
+        }
     }
 
     function check(event: React.MouseEvent<HTMLElement>) {
@@ -78,10 +77,10 @@ export default function Index() {
             <div className="content">
                 <div className="container">
                     <img src="925902.jpg" useMap="#areamap" onClick={pointerDown}/>   
-                <map name="areamap">
-                    <area coords={String(character1.coord)} alt={`${character1.name}`} href="null" onClick={pointerDown}/>
-                    <area coords={String(character2.coord)} alt={`${character2.name}`} href="null" onClick={pointerDown}/>
-                    <area coords={String(character3.coord)} alt={`${character3.name}`} href="null" onClick={pointerDown}/>
+                <map name="areamap" onClick={pointerDown}>
+                    <area coords={String(character1.coord)} alt={`${character1.name}`} href="null" />
+                    <area coords={String(character2.coord)} alt={`${character2.name}`} href="null" />
+                    <area coords={String(character3.coord)} alt={`${character3.name}`} href="null" />
                 </map>
                 <div className={visibility}>
                     <Menu
