@@ -49,14 +49,17 @@ export default function Index() {
         switch(name) {
             case (character1.name):
                 console.log(`You found ${character1.name}!`);
+                updateCharacter(character1);
                 setVisibility("hidden");
                 break;
             case (character2.name):
                 console.log(`You found ${character2.name}!`);
+                updateCharacter(character2);
                 setVisibility("hidden");
                 break;
             case (character3.name):
                 console.log(`You found ${character3.name}!`);
+                updateCharacter(character3);
                 setVisibility("hidden");
                 break;
             default:
@@ -68,8 +71,21 @@ export default function Index() {
        }        
     }
 
-    const validate = async(event: React.MouseEvent<HTMLElement>) => {
-        event.preventDefault()
+    const updateCharacter = async(character) => {
+        console.log(character);
+        const response = await fetch(`https://localhost:7057/api/character/${character.id}`, {
+            method: "PUT",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                id: character.id,
+                name: character.name,
+                coord: character.coord,
+                found: true,
+              })
+        })
     }
 
     return (
