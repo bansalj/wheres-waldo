@@ -4,8 +4,10 @@ export default function Index() {
 
     const [styleTop, setStyleTop] = useState(0);
     const [styleLeft, setStyleLeft] = useState(0);
-    // const [clicked, setClicked] = useState(false);
     const [visibility, setVisibility] = useState("hidden");
+    const [isFound1, setIsFound1] = useState(false);
+    const [isFound2, setIsFound2] = useState(false);
+    const [isFound3, setIsFound3] = useState(false);
     const [character1, setCharater1] = useState<any[]>([]);
     const [character2, setCharater2] = useState<any[]>([]);
     const [character3, setCharater3] = useState<any[]>([]);
@@ -28,7 +30,6 @@ export default function Index() {
     function pointerDown(event: React.MouseEvent<HTMLElement>) {
         event.preventDefault();
         setSelectedName(event.target.alt);
-        // setClicked(true);
         menuPosition(event);
     }
 
@@ -37,7 +38,6 @@ export default function Index() {
             setVisibility("visible");
             setStyleTop(event.clientY - 20);
             setStyleLeft(event.clientX + 10);
-            // setClicked(false);
         } else {
             setVisibility("hidden");
         }
@@ -50,16 +50,19 @@ export default function Index() {
             case (character1.name):
                 console.log(`You found ${character1.name}!`);
                 updateCharacter(character1);
+                setIsFound1(true);
                 setVisibility("hidden");
                 break;
             case (character2.name):
                 console.log(`You found ${character2.name}!`);
                 updateCharacter(character2);
+                setIsFound2(true);
                 setVisibility("hidden");
                 break;
             case (character3.name):
                 console.log(`You found ${character3.name}!`);
                 updateCharacter(character3);
+                setIsFound3(true);
                 setVisibility("hidden");
                 break;
             default:
@@ -88,6 +91,10 @@ export default function Index() {
         })
     }
 
+    const reset = async(character) => {
+
+    }
+
     return (
         <>
             <div className="content">
@@ -99,13 +106,23 @@ export default function Index() {
                     <area coords={String(character3.coord)} alt={`${character3.name}`} href="null" />
                 </map>
                 <div className={visibility}>
-                    <Menu
-                    styleLeft={styleLeft}
-                    styleTop={styleTop}
-                    name1={character1.name}
-                    name2={character2.name}
-                    name3={character3.name}
-                    onClick={check}/>
+                    <div className="menu" style={{top: styleTop + "px", left: styleLeft + "px"}}>
+                        <Option
+                        onClick={check}
+                        name={character1.name}
+                        isFound={isFound1}
+                        />
+                        <Option
+                        onClick={check}
+                        name={character2.name}
+                        isFound={isFound2}
+                        />
+                        <Option
+                        onClick={check}
+                        name={character3.name}
+                        isFound={isFound3}
+                        />
+                    </div>
                 </div>
                 </div>  
             </div>
@@ -114,14 +131,16 @@ export default function Index() {
 
 }
 
-function Menu({ styleTop, styleLeft, name1, name2, name3, onClick }) {
+function Option({ name, onClick, isFound }) {
     return (
         <>
-            <div className="menu" style={{top: styleTop + "px", left: styleLeft + "px"}}>    
-                <button onClick={onClick}>{name1}</button>
-                <button onClick={onClick}>{name2}</button>
-                <button onClick={onClick}>{name3}</button>
-            </div>
+            {!isFound ? (
+                <button onClick={onClick}>{name}</button>
+            ) : (
+                <>
+                </>
+            )}
+            
         </>
     )
 }
