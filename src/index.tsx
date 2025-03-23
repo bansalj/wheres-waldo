@@ -5,10 +5,11 @@ export default function Index() {
     const [styleTop, setStyleTop] = useState(0);
     const [styleLeft, setStyleLeft] = useState(0);
     const [visibility, setVisibility] = useState("hidden");
-    const [character1, setCharater1] = useState<any[]>([]);
-    const [character2, setCharater2] = useState<any[]>([]);
-    const [character3, setCharater3] = useState<any[]>([]);
+    const [character1, setCharacter1] = useState<any[]>([]);
+    const [character2, setCharacter2] = useState<any[]>([]);
+    const [character3, setCharacter3] = useState<any[]>([]);
     const [selectedName, setSelectedName] = useState<string>();
+    const [sendRequest, SetSendRequest] = useState(0);
 
     useEffect(() => {
         fetch("https://localhost:7057/api/character", {
@@ -17,12 +18,12 @@ export default function Index() {
         })
         .then((Response) => Response.json())
         .then((character:any) => {
-            setCharater1(character[0]);
-            setCharater2(character[1]);
-            setCharater3(character[2]);
+            setCharacter1(character[0]);
+            setCharacter2(character[1]);
+            setCharacter3(character[2]);
         })
         .catch(error => console.error("Nerwork Error", error));
-    },[character1, character2, character3])
+    },[sendRequest])
  
     function pointerDown(event: React.MouseEvent<HTMLElement>) {
         event.preventDefault();
@@ -82,10 +83,23 @@ export default function Index() {
                 found: true,
               })
         })
+        .then(() => {SetSendRequest(sendRequest => sendRequest + 1)})
     }
 
     const reset = async(character) => {
-
+        const response1 =  await fetch(`https://localhost:7057/api/character/${character.id}`, {
+            method: "PUT",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                id: character.id,
+                name: character.name,
+                coord: character.coord,
+                found: false,
+              })
+        })
     }
 
     return (
@@ -94,9 +108,9 @@ export default function Index() {
                 <div className="container">
                     <img src="925902.jpg" useMap="#areamap" onClick={pointerDown}/>   
                 <map name="areamap" onClick={pointerDown}>
-                    <area coords={String(character1.coord)} alt={`${character1.name}`} href="null" />
-                    <area coords={String(character2.coord)} alt={`${character2.name}`} href="null" />
-                    <area coords={String(character3.coord)} alt={`${character3.name}`} href="null" />
+                    <area className="area1" coords={String(character1.coord)} alt={`${character1.name}`} href="null" />
+                    <area className="area2" coords={String(character2.coord)} alt={`${character2.name}`} href="null" />
+                    <area className="area3" coords={String(character3.coord)} alt={`${character3.name}`} href="null" />
                 </map>
                 <div className={visibility}>
                     <div className="menu" style={{top: styleTop + "px", left: styleLeft + "px"}}>
