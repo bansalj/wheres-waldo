@@ -5,9 +5,6 @@ export default function Index() {
     const [styleTop, setStyleTop] = useState(0);
     const [styleLeft, setStyleLeft] = useState(0);
     const [visibility, setVisibility] = useState("hidden");
-    const [isFound1, setIsFound1] = useState(false);
-    const [isFound2, setIsFound2] = useState(false);
-    const [isFound3, setIsFound3] = useState(false);
     const [character1, setCharater1] = useState<any[]>([]);
     const [character2, setCharater2] = useState<any[]>([]);
     const [character3, setCharater3] = useState<any[]>([]);
@@ -25,7 +22,7 @@ export default function Index() {
             setCharater3(character[2]);
         })
         .catch(error => console.error("Nerwork Error", error));
-    },[setCharater1, setCharater2, setCharater3])
+    },[character1, character2, character3])
  
     function pointerDown(event: React.MouseEvent<HTMLElement>) {
         event.preventDefault();
@@ -50,19 +47,16 @@ export default function Index() {
             case (character1.name):
                 console.log(`You found ${character1.name}!`);
                 updateCharacter(character1);
-                setIsFound1(true);
                 setVisibility("hidden");
                 break;
             case (character2.name):
                 console.log(`You found ${character2.name}!`);
                 updateCharacter(character2);
-                setIsFound2(true);
                 setVisibility("hidden");
                 break;
             case (character3.name):
                 console.log(`You found ${character3.name}!`);
                 updateCharacter(character3);
-                setIsFound3(true);
                 setVisibility("hidden");
                 break;
             default:
@@ -75,7 +69,6 @@ export default function Index() {
     }
 
     const updateCharacter = async(character) => {
-        console.log(character);
         const response = await fetch(`https://localhost:7057/api/character/${character.id}`, {
             method: "PUT",
             headers: {
@@ -110,17 +103,17 @@ export default function Index() {
                         <Option
                         onClick={check}
                         name={character1.name}
-                        isFound={isFound1}
+                        isFound={character1.found}
                         />
                         <Option
                         onClick={check}
                         name={character2.name}
-                        isFound={isFound2}
+                        isFound={character2.found}
                         />
                         <Option
                         onClick={check}
                         name={character3.name}
-                        isFound={isFound3}
+                        isFound={character3.found}
                         />
                     </div>
                 </div>
