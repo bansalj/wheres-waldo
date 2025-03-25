@@ -5,11 +5,12 @@ export default function Index() {
     const [styleTop, setStyleTop] = useState(0);
     const [styleLeft, setStyleLeft] = useState(0);
     const [visibility, setVisibility] = useState("hidden");
+    const [loading, setLoading] = useState(false);
     const [character1, setCharacter1] = useState<any[]>([]);
     const [character2, setCharacter2] = useState<any[]>([]);
     const [character3, setCharacter3] = useState<any[]>([]);
     const [selectedName, setSelectedName] = useState<string>();
-    const [sendRequest, SetSendRequest] = useState(0);
+    const [sendRequest, setSendRequest] = useState(0);
 
     useEffect(() => {
         fetch("https://localhost:7057/api/character", {
@@ -21,6 +22,8 @@ export default function Index() {
             setCharacter1(character[0]);
             setCharacter2(character[1]);
             setCharacter3(character[2]);
+            setSendRequest(1);
+            setLoading(true);
         })
         .catch(error => console.error("Nerwork Error", error));
     },[sendRequest])
@@ -48,7 +51,7 @@ export default function Index() {
             case (character1.name):
                 console.log(`You found ${character1.name}!`);
                 updateCharacter(character1);
-                setVisibility("hidden");
+                setVisibility("visible");
                 break;
             case (character2.name):
                 console.log(`You found ${character2.name}!`);
@@ -83,7 +86,7 @@ export default function Index() {
                 found: true,
               })
         })
-        .then(() => {SetSendRequest(sendRequest => sendRequest + 1)})
+        .then(() => {setSendRequest(sendRequest => sendRequest + 1)})
     }
 
     const reset = async(character) => {
@@ -102,39 +105,57 @@ export default function Index() {
         })
     }
 
-    return (
-        <>
-            <div className="content">
-                <div className="container">
-                    <img src="925902.jpg" useMap="#areamap" onClick={pointerDown}/>   
-                <map name="areamap" onClick={pointerDown}>
-                    <area className="area1" coords={String(character1.coord)} alt={`${character1.name}`} href="null" />
-                    <area className="area2" coords={String(character2.coord)} alt={`${character2.name}`} href="null" />
-                    <area className="area3" coords={String(character3.coord)} alt={`${character3.name}`} href="null" />
-                </map>
-                <div className={visibility}>
-                    <div className="menu" style={{top: styleTop + "px", left: styleLeft + "px"}}>
-                        <Option
-                        onClick={check}
-                        name={character1.name}
-                        isFound={character1.found}
-                        />
-                        <Option
-                        onClick={check}
-                        name={character2.name}
-                        isFound={character2.found}
-                        />
-                        <Option
-                        onClick={check}
-                        name={character3.name}
-                        isFound={character3.found}
-                        />
+    if (loading == true) {
+        return (
+            <>
+                <div className="content">
+                    <div className="container">
+                        <div className="image-container">
+                            <img src="925902.jpg" useMap="#areamap" onClick={pointerDown} alt={character1.name}/> 
+                            <Marker className={"marker"} name={character1.name} img={"marker.png"} isFound={character1.found} 
+                            style={{width:"30px", height:"30px", position:"absolute", 
+                            top: character1.coord[1], left: character1.coord[0] 
+                            }}/> 
+                            <Marker className={"marker"} name={character2.name} img={"marker.png"} isFound={character2.found} 
+                            style={{width:"30px", height:"30px", position:"absolute", 
+                            top: character2.coord[1], left: character2.coord[0] 
+                            }}/> 
+                            <Marker className={"marker"} name={character3.name} img={"marker.png"} isFound={character3.found} 
+                            style={{width:"30px", height:"30px", position:"absolute", 
+                            top: character3.coord[1], left: character3.coord[0] 
+                            }}/> 
+                        </div>
+                    <map name="areamap" onClick={pointerDown}>
+                        <area coords={String(character1.coord)} alt={`${character1.name}`} href="null" />
+                        <area coords={String(character2.coord)} alt={`${character2.name}`} href="null" />
+                        <area coords={String(character3.coord)} alt={`${character3.name}`} href="null" />
+                    </map>              
+                    <div className={visibility} key={"menu"}>
+                        <div className="menu" style={{top: styleTop + "px", left: styleLeft + "px"}}>
+                            <Option
+                            onClick={check}
+                            name={character1.name}
+                            isFound={character1.found}
+                            />
+                            <Option
+                            onClick={check}
+                            name={character2.name}
+                            isFound={character2.found}
+                            />
+                            <Option
+                            onClick={check}
+                            name={character3.name}
+                            isFound={character3.found}
+                            />
+                        </div>
                     </div>
+                    </div>  
                 </div>
-                </div>  
-            </div>
-        </>
-    )
+            </>
+        )
+    }
+
+    
 
 }
 
@@ -148,6 +169,19 @@ function Option({ name, onClick, isFound }) {
                 </>
             )}
             
+        </>
+    )
+}
+
+function Marker({ className, name, isFound, img, style }) {
+    return (
+        <>
+            {isFound ? (
+                <img src={img} alt={name} style={style} className={className} />
+            ) : (
+                <>
+                </>
+            )}
         </>
     )
 }

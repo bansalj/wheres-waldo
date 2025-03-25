@@ -17,7 +17,7 @@ body {
   grid-template-columns: 0.7fr 0.1fr 0.1fr 0.1fr;
   background-color: oklch(0.208 0.042 265.755);
   font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
-  height: 15vh;
+  height: 10vh;
   z-index: 1;
 }
 
@@ -44,6 +44,10 @@ img {
 
 img:hover {
   cursor: crosshair;
+}
+
+.img-container {
+  position: relative;
 }
 
 .menu-container {
@@ -106,4 +110,10 @@ button:hover {
 area {
   position: absolute;
   cursor: crosshair;
+}
+
+.marker {
+  width:"30px"; 
+  height:"30px"; 
+  position:"absolute";
 }
