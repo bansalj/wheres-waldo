@@ -21,6 +21,10 @@ body {
   z-index: 1;
 }
 
+.timer {
+  color: white;
+}
+
 main {
   height: 30vh;
   background-color: oklch(0.208 0.042 265.755);
@@ -57,6 +61,13 @@ img:hover {
 .container{
   overflow: auto;
   position: relative;
+}
+
+.index-container {
+  display: grid;
+  margin-top: 30px;
+  align-items: center;
+  justify-items: center;
 }
 
 /* .menu:hover {
@@ -116,4 +127,39 @@ area {
   width:"30px"; 
   height:"30px"; 
   position:"absolute";
+}
+
+.game-card {
+  display: grid;
+  justify-content: center;
+  justify-items: center;
+  border-radius: 10px;
+  gap: 0px;
+  width: 400px;
+  height: 400px;
+  color: white;
+  background-color: oklch(0.279 0.041 260.031);
+}
+
+/* .game-card-title {
+  font-size: large;
+} */
+
+.game-card-image {
+  border-radius: 5%;
+  object-fit: contain;
+}
+
+.game-card-button {
+  background-color: oklch(0.257 0.09 281.288);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  padding: 15px 32px;
+  width: 100px;
+  height: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
 }

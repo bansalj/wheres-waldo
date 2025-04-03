@@ -1,8 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
 import { RouterProvider } from "react-router-dom";
-import Root from "./routes/root.tsx";
-import ErrorPage from "./error-page.tsx"
-import Index from "./index.tsx";
+import Root, { Timer } from "./routes/root.tsx";
+import ErrorPage from "./error-page.tsx";
+import Index from "./routes/index.tsx";
+import Waldo from "./routes/waldo.tsx";
+import './index.css';
 
 const Router = () => {
 
@@ -12,8 +14,13 @@ const Router = () => {
             element: <Root />,
             errorElement: <ErrorPage />,
             children: [
-                { index: true,
+                { 
+                    index: true,
                     element: <Index />
+                },
+                { 
+                    path: "/waldo",
+                    element: <Waldo />,        
                 },
             ]
         }

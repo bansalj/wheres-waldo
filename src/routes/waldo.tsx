@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-export default function Index() {
+export default function Waldo() {
 
     const [styleTop, setStyleTop] = useState(0);
     const [styleLeft, setStyleLeft] = useState(0);
@@ -89,6 +89,12 @@ export default function Index() {
         .then(() => {setSendRequest(sendRequest => sendRequest + 1)})
     }
 
+    function gameover() {
+        if(character1.found && character2.found && character3.found == true) {
+            console.log("game over!");
+        }
+    }
+
     const reset = async(character) => {
         const response1 =  await fetch(`https://localhost:7057/api/character/${character.id}`, {
             method: "PUT",
@@ -154,9 +160,6 @@ export default function Index() {
             </>
         )
     }
-
-    
-
 }
 
 function Option({ name, onClick, isFound }) {
@@ -168,7 +171,6 @@ function Option({ name, onClick, isFound }) {
                 <>
                 </>
             )}
-            
         </>
     )
 }
