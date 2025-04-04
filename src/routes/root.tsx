@@ -7,24 +7,25 @@ export default function Root() {
     const [seconds, setSeconds] = useState<any>();
     const [timer, setTimer] = useState<any>();
 
+    const { pathname } = useLocation();
+
     useEffect(() => {
 
         const startTime: number = Date.now();
 
-        const interval = setInterval(() => {
-            const elapsedTime = Date.now() - startTime
-            const time = (elapsedTime / 1000).toFixed(1);
-            setTimer(time);
-            if (timer > 59) {
-                setSeconds
-            }
-        }, 100);
-
-        return () => {clearInterval(interval)};
+        // if (gameStart) {
+            const interval = setInterval(() => {
+                const elapsedTime = Date.now() - startTime
+                const time = (elapsedTime / 1000).toFixed(1);
+                setTimer(time);
+                // if (timer > 59) {
+                //     setSeconds
+                // }
+            }, 100);
     
-    },[])
+            return () => {clearInterval(interval)};
 
-    const { pathname } = useLocation();
+    },[pathname])
 
     return (
         <>
