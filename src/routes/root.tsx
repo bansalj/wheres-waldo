@@ -13,7 +13,6 @@ export default function Root() {
 
         const startTime: number = Date.now();
 
-        // if (gameStart) {
             const interval = setInterval(() => {
                 const elapsedTime = Date.now() - startTime
                 const time = (elapsedTime / 1000).toFixed(1);

@@ -24,6 +24,7 @@ export default function Waldo() {
             setCharacter3(character[2]);
             setSendRequest(1);
             setLoading(true);
+            gameover();
         })
         .catch(error => console.error("Nerwork Error", error));
     },[sendRequest])
@@ -69,7 +70,8 @@ export default function Waldo() {
        } else {
         console.log("Sorry! Try again!");
         setVisibility("hidden");
-       }        
+       }  
+            
     }
 
     const updateCharacter = async(character) => {
@@ -91,7 +93,10 @@ export default function Waldo() {
 
     function gameover() {
         if(character1.found && character2.found && character3.found == true) {
-            console.log("game over!");
+            alert("game over!");
+            reset(character1);
+            reset(character2);
+            reset(character3);
         }
     }
 
