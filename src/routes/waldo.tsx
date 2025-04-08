@@ -2,14 +2,26 @@ import React, { useState, useEffect } from "react";
 
 export default function Waldo() {
 
+    type Character = {
+        id: number,
+        name: string,
+        coord: number[],
+        found: boolean
+    }
+
+    type CharacterData = {
+        characters?: Array<Character>
+    }
+
     const [styleTop, setStyleTop] = useState(0);
     const [styleLeft, setStyleLeft] = useState(0);
     const [visibility, setVisibility] = useState("hidden");
     const [loading, setLoading] = useState(false);
-    const [character1, setCharacter1] = useState<any[]>([]);
-    const [character2, setCharacter2] = useState<any[]>([]);
-    const [character3, setCharacter3] = useState<any[]>([]);
-    const [selectedName, setSelectedName] = useState<string>();
+    const [character1, setCharacter1] = useState<Character | null>(null);
+    const [character2, setCharacter2] = useState<Character | null>(null);
+    const [character3, setCharacter3] = useState<Character | null>(null);
+    const [characterData, setCharacterData] = useState<CharacterData | null>(null);
+    const [selectedName, setSelectedName] = useState<string | null>(null);
     const [sendRequest, setSendRequest] = useState(0);
 
     useEffect(() => {
@@ -18,7 +30,8 @@ export default function Waldo() {
             headers: {'Content-type': 'application/json; charset=UTF-8'}
         })
         .then((Response) => Response.json())
-        .then((character:any) => {
+        .then((character: any) => {
+            setCharacterData(character);
             setCharacter1(character[0]);
             setCharacter2(character[1]);
             setCharacter3(character[2]);
@@ -27,6 +40,9 @@ export default function Waldo() {
             gameover();
         })
         .catch(error => console.error("Nerwork Error", error));
+        // if (characterData) {
+        //     console.log(characterData[0])
+        // }
     },[sendRequest])
  
     function pointerDown(event: React.MouseEvent<HTMLElement>) {
@@ -49,18 +65,18 @@ export default function Waldo() {
        let name: string = event.target.innerText;
        if (name == selectedName) {
         switch(name) {
-            case (character1.name):
-                console.log(`You found ${character1.name}!`);
+            case (character1?.name):
+                console.log(`You found ${character1?.name}!`);
                 updateCharacter(character1);
-                setVisibility("visible");
+                setVisibility("hidden");
                 break;
-            case (character2.name):
-                console.log(`You found ${character2.name}!`);
+            case (character2?.name):
+                console.log(`You found ${character2?.name}!`);
                 updateCharacter(character2);
                 setVisibility("hidden");
                 break;
-            case (character3.name):
-                console.log(`You found ${character3.name}!`);
+            case (character3?.name):
+                console.log(`You found ${character3?.name}!`);
                 updateCharacter(character3);
                 setVisibility("hidden");
                 break;
@@ -74,7 +90,7 @@ export default function Waldo() {
             
     }
 
-    const updateCharacter = async(character) => {
+    const updateCharacter = async(character: Character) => {
         const response = await fetch(`https://localhost:7057/api/character/${character.id}`, {
             method: "PUT",
             headers: {
@@ -92,7 +108,7 @@ export default function Waldo() {
     }
 
     function gameover() {
-        if(character1.found && character2.found && character3.found == true) {
+        if(character1?.found && character2?.found && character3?.found == true) {
             alert("game over!");
             reset(character1);
             reset(character2);
@@ -100,7 +116,7 @@ export default function Waldo() {
         }
     }
 
-    const reset = async(character) => {
+    const reset = async(character: Character) => {
         const response1 =  await fetch(`https://localhost:7057/api/character/${character.id}`, {
             method: "PUT",
             headers: {
@@ -122,41 +138,41 @@ export default function Waldo() {
                 <div className="content">
                     <div className="container">
                         <div className="image-container">
-                            <img src="925902.jpg" useMap="#areamap" onClick={pointerDown} alt={character1.name}/> 
-                            <Marker className={"marker"} name={character1.name} img={"marker.png"} isFound={character1.found} 
-                            style={{width:"30px", height:"30px", position:"absolute", 
-                            top: character1.coord[1], left: character1.coord[0] 
-                            }}/> 
-                            <Marker className={"marker"} name={character2.name} img={"marker.png"} isFound={character2.found} 
-                            style={{width:"30px", height:"30px", position:"absolute", 
-                            top: character2.coord[1], left: character2.coord[0] 
-                            }}/> 
-                            <Marker className={"marker"} name={character3.name} img={"marker.png"} isFound={character3.found} 
-                            style={{width:"30px", height:"30px", position:"absolute", 
-                            top: character3.coord[1], left: character3.coord[0] 
-                            }}/> 
+                            <img src="925902.jpg" useMap="#areamap" onClick={pointerDown} alt={character1?.name}/> 
+                            {characterData.map((character, index) => 
+                                <Marker
+                                key={index}
+                                className={"marker"}
+                                name={character.name}
+                                isFound={character.found}
+                                img={"marker.png"}
+                                style={{width:"30px", height:"30px", position:"absolute", 
+                                    top: character.coord[1], left: character.coord[0] 
+                                    }}
+                                />
+                            )}
                         </div>
                     <map name="areamap" onClick={pointerDown}>
-                        <area coords={String(character1.coord)} alt={`${character1.name}`} href="null" />
-                        <area coords={String(character2.coord)} alt={`${character2.name}`} href="null" />
-                        <area coords={String(character3.coord)} alt={`${character3.name}`} href="null" />
+                        <area coords={String(character1?.coord)} alt={`${character1?.name}`} href="null" />
+                        <area coords={String(character2?.coord)} alt={`${character2?.name}`} href="null" />
+                        <area coords={String(character3?.coord)} alt={`${character3?.name}`} href="null" />
                     </map>              
                     <div className={visibility} key={"menu"}>
                         <div className="menu" style={{top: styleTop + "px", left: styleLeft + "px"}}>
                             <Option
                             onClick={check}
-                            name={character1.name}
-                            isFound={character1.found}
+                            name={character1?.name}
+                            isFound={character1?.found}
                             />
                             <Option
                             onClick={check}
-                            name={character2.name}
-                            isFound={character2.found}
+                            name={character2?.name}
+                            isFound={character2?.found}
                             />
                             <Option
                             onClick={check}
-                            name={character3.name}
-                            isFound={character3.found}
+                            name={character3?.name}
+                            isFound={character3?.found}
                             />
                         </div>
                     </div>

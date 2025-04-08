@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import Timer from "../components/timer";
+import Modal from "../components/modal";
 
 export default function Root() {
 
     const [seconds, setSeconds] = useState<any>();
     const [timer, setTimer] = useState<any>();
-
+    const [stopTimer, setStopTimer] = useState(timer);
     const { pathname } = useLocation();
 
     useEffect(() => {
@@ -24,12 +25,32 @@ export default function Root() {
     
             return () => {clearInterval(interval)};
 
-    },[pathname])
+    },[pathname, stopTimer])
+    
+
+    function submit() {
+        setStopTimer(timer);
+        console.log(stopTimer)
+    }
+
+    const submitUsername = async(e) => {
+        const response =  await fetch(`https://localhost:7057/api/player`, {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                name: e.username
+                
+              })
+        })
+    }
 
     return (
         <>
             <header className="header">
-                    <nav className="main-text" style={{textDecoration:'none', fontSize:'30px'}} ><Link to={'/'} style={{textDecoration:'none'}}>WHERES WALDO</Link>
+                    <nav className="main-text" style={{textDecoration:'none', fontSize:'30px'}} ><Link to={'/'} style={{textDecoration:'none', color:'white'}}>WHERES WALDO</Link>
                     </nav>
                     {pathname !== '/' ? (
                         <Timer timer={timer}/>
@@ -39,6 +60,7 @@ export default function Root() {
                     )}
             </header>
             <main> 
+                <Modal time={stopTimer} link={'/'} onClick={submit} onSubmit={submitUsername}/>
                 <Outlet/>
             </main>
             <footer>
