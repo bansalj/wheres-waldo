@@ -40,9 +40,6 @@ export default function Waldo() {
             gameover();
         })
         .catch(error => console.error("Nerwork Error", error));
-        // if (characterData) {
-        //     console.log(characterData[0])
-        // }
     },[sendRequest])
  
     function pointerDown(event: React.MouseEvent<HTMLElement>) {
@@ -65,19 +62,19 @@ export default function Waldo() {
        let name: string = event.target.innerText;
        if (name == selectedName) {
         switch(name) {
-            case (character1?.name):
-                console.log(`You found ${character1?.name}!`);
-                updateCharacter(character1);
+            case (characterData[0].name):
+                console.log(`You found ${characterData[0].name}!`);
+                updateCharacter(characterData[0]);
                 setVisibility("hidden");
                 break;
-            case (character2?.name):
-                console.log(`You found ${character2?.name}!`);
-                updateCharacter(character2);
+            case (characterData[1].name):
+                console.log(`You found ${characterData[1].name}!`);
+                updateCharacter(characterData[1]);
                 setVisibility("hidden");
                 break;
-            case (character3?.name):
-                console.log(`You found ${character3?.name}!`);
-                updateCharacter(character3);
+            case (characterData[2].name):
+                console.log(`You found ${characterData[2].name}!`);
+                updateCharacter(characterData[2]);
                 setVisibility("hidden");
                 break;
             default:
@@ -153,27 +150,22 @@ export default function Waldo() {
                             )}
                         </div>
                     <map name="areamap" onClick={pointerDown}>
-                        <area coords={String(character1?.coord)} alt={`${character1?.name}`} href="null" />
-                        <area coords={String(character2?.coord)} alt={`${character2?.name}`} href="null" />
-                        <area coords={String(character3?.coord)} alt={`${character3?.name}`} href="null" />
+                            {characterData.map((character: Character, index: number) => 
+                                <area key={index} coords={String(character.coord)} 
+                                alt={`${character.name}`} 
+                                href="null" 
+                                />
+                            )}
                     </map>              
-                    <div className={visibility} key={"menu"}>
+                    <div className={visibility}>
                         <div className="menu" style={{top: styleTop + "px", left: styleLeft + "px"}}>
-                            <Option
-                            onClick={check}
-                            name={character1?.name}
-                            isFound={character1?.found}
-                            />
-                            <Option
-                            onClick={check}
-                            name={character2?.name}
-                            isFound={character2?.found}
-                            />
-                            <Option
-                            onClick={check}
-                            name={character3?.name}
-                            isFound={character3?.found}
-                            />
+                            {characterData.map((character: Character, index: number) => 
+                                <Option 
+                                key={index}
+                                onClick={check}
+                                name={character.name}
+                                isFound={character.found}/>
+                            )}
                         </div>
                     </div>
                     </div>  
@@ -186,11 +178,11 @@ export default function Waldo() {
 function Option({ name, onClick, isFound }) {
     return (
         <>
-            {!isFound ? (
-                <button onClick={onClick}>{name}</button>
-            ) : (
-                <>
+            {isFound ? (
+                 <>
                 </>
+            ) : (
+                <button onClick={onClick}>{name}</button>
             )}
         </>
     )
