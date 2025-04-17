@@ -1,8 +1,8 @@
-export default function Timer({ timer }) {
+export default function Timer({ seconds, minutes }) {
     return (
         <>
             <h1 className="timer">
-                Time: {timer}s
+                Time: {minutes}:{seconds}s
             </h1>
         </>
     )

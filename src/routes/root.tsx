@@ -1,14 +1,36 @@
 import { useState, useEffect } from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useOutletContext, useLocation } from "react-router-dom";
 import Timer from "../components/timer";
-import Modal from "../components/modal";
 
 export default function Root() {
 
-    const [seconds, setSeconds] = useState<any>();
-    const [timer, setTimer] = useState<any>();
+    const [seconds, setSeconds] = useState<number>(0);
+    const [minutes, setMinutes] = useState<number>(0);
+    const [timer, setTimer] = useState<number>(0);
     const [stopTimer, setStopTimer] = useState(timer);
     const { pathname } = useLocation();
+    // const [characterData, setCharacterData] = useState<CharacterData | null>(null);
+    const [sendRequest, setSendRequest] = useState(0);
+    const [loading, setLoading] = useState(false);
+    
+
+    // useEffect(() => {
+    //         fetch("https://localhost:7057/api/character", {
+    //             method:"GET",
+    //             headers: {'Content-type': 'application/json; charset=UTF-8'}
+    //         })
+    //         .then((Response) => Response.json())
+    //         .then((character: any) => {
+    //             setCharacterData(character);
+    //             setSendRequest(1);
+    //             setLoading(true);
+    //             // if (characterData != null) {
+    //             //     gameover();    
+    //             // }
+                
+    //         })
+    //         .catch(error => console.error("Nerwork Error", error));
+    //     },[sendRequest])
 
     useEffect(() => {
 
@@ -16,36 +38,18 @@ export default function Root() {
 
             const interval = setInterval(() => {
                 const elapsedTime = Date.now() - startTime
-                const time = (elapsedTime / 1000).toFixed(1);
-                setTimer(time);
-                // if (timer > 59) {
-                //     setSeconds
-                // }
-            }, 100);
+                const time = (Math.floor(elapsedTime / 1000));
+                setSeconds(time);
+                if (time == 60) {
+                    setSeconds(0);
+                    setMinutes(minutes => minutes + 1);
+                }
+            }, 1000);
     
             return () => {clearInterval(interval)};
 
-    },[pathname, stopTimer])
-    
+    },[pathname, minutes])
 
-    function submit() {
-        setStopTimer(timer);
-        console.log(stopTimer)
-    }
-
-    const submitUsername = async(e) => {
-        const response =  await fetch(`https://localhost:7057/api/player`, {
-            method: "POST",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({
-                name: e.username
-                
-              })
-        })
-    }
 
     return (
         <>
@@ -53,15 +57,14 @@ export default function Root() {
                     <nav className="main-text" style={{textDecoration:'none', fontSize:'30px'}} ><Link to={'/'} style={{textDecoration:'none', color:'white'}}>WHERES WALDO</Link>
                     </nav>
                     {pathname !== '/' ? (
-                        <Timer timer={timer}/>
+                        <Timer minutes={minutes} seconds={seconds}/>
                     ) : (
                         <>
                         </>
                     )}
             </header>
             <main> 
-                <Modal time={stopTimer} link={'/'} onClick={submit} onSubmit={submitUsername}/>
-                <Outlet/>
+                <Outlet context={{loading, sendRequest, setSendRequest, seconds, minutes}}/>
             </main>
             <footer>
             </footer>
