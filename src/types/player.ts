@@ -1,7 +1,8 @@
 type Player = {
     id: number
-    username: string
+    name: string
     time: string
+    date: Date
 }
 
 export default Player;

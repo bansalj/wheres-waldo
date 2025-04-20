@@ -61,10 +61,12 @@ img:hover {
 .container{
   overflow: auto;
   position: relative;
+
 }
 
 .index-container {
   display: grid;
+  grid-template-rows: 0.7fr 0.3fr;
   margin-top: 30px;
   align-items: center;
   justify-items: center;
@@ -193,4 +195,21 @@ area {
 
 .modal-button {
   margin-left: 20px;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 1000px;
+  color: white;
+}
+
+td, th {
+  border: 1px solid oklch(44.6% 0.043 257.281);
+  text-align: center;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: oklch(44.6% 0.043 257.281);
 }

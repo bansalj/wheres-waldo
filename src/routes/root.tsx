@@ -45,10 +45,15 @@ export default function Root() {
                     setMinutes(minutes => minutes + 1);
                 }
             }, 1000);
+
+            if (pathname == "/") {
+                setMinutes(0);
+                setSeconds(0);
+            }
     
             return () => {clearInterval(interval)};
 
-    },[pathname, minutes])
+    },[pathname])
 
 
     return (
@@ -56,7 +61,7 @@ export default function Root() {
             <header className="header">
                     <nav className="main-text" style={{textDecoration:'none', fontSize:'30px'}} ><Link to={'/'} style={{textDecoration:'none', color:'white'}}>WHERES WALDO</Link>
                     </nav>
-                    {pathname !== '/' ? (
+                    {pathname != '/' ? (
                         <Timer minutes={minutes} seconds={seconds}/>
                     ) : (
                         <>

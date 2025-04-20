@@ -8,8 +8,9 @@ export default function Modal({ minutes, seconds }) {
 
     const navigate: any = useNavigate();
 
-    const submitUsername = async(event: React.MouseEvent<HTMLElement>, player: Player) => {
+    const submitUsername = async(event: React.MouseEvent<HTMLElement>) => {
         event.preventDefault();
+        const date = new Date();
         const response =  await fetch(`https://localhost:7057/api/Player`, {
             method: "POST",
             headers: {
@@ -19,7 +20,8 @@ export default function Modal({ minutes, seconds }) {
               body: JSON.stringify({
                 // id: player.id,
                 name: username,
-                time: `${minutes}:${seconds}`
+                time: `${minutes}:${seconds}`,
+                date: date
               })
         }).then(navigate('/'));  
     }

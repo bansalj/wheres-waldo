@@ -108,9 +108,9 @@ export default function Waldo() {
             for (i = 0; i < characterData.length; i++) {
                     reset(characterData[i]);
                 }
-                setGameOver(true);
-                setSeconds(context.seconds);
-                setMinutes(context.minutes);
+            setGameOver(true);
+            setSeconds(context.seconds);
+            setMinutes(context.minutes);
         }
     }
     
