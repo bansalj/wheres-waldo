@@ -14,15 +14,17 @@ body {
   top: 0%;
   justify-items: center;
   align-items: center;
-  grid-template-columns: 0.7fr 0.1fr 0.1fr 0.1fr;
+  grid-template-columns: 1fr 5fr 1fr;
   background-color: oklch(0.208 0.042 265.755);
   font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
   height: 10vh;
+  width: 100%;
   z-index: 1;
 }
 
 .timer {
   color: white;
+  grid-column: 3/4;
 }
 
 main {
@@ -41,9 +43,10 @@ footer {
 }
 
 img {
-  max-width: 100%;
-  max-height: 100%;
+  width: 1920px;
+  height: 1217px;
   object-fit: scale-down;
+  overflow: auto;
 }
 
 img:hover {
@@ -52,6 +55,8 @@ img:hover {
 
 .img-container {
   position: relative;
+  resize: none;
+  overflow: auto;
 }
 
 .menu-container {
@@ -135,12 +140,12 @@ area {
   display: grid;
   justify-content: center;
   justify-items: center;
-  border-radius: 10px;
   gap: 0px;
   width: 400px;
   height: 400px;
   color: white;
   background-color: oklch(0.279 0.041 260.031);
+  object-fit: contain;
 }
 
 /* .game-card-title {
@@ -149,13 +154,13 @@ area {
 
 .game-card-image {
   border-radius: 5%;
-  object-fit: contain;
+  max-width: 450px;
+  max-height: 250px;
 }
 
 .game-card-button {
   background-color: oklch(0.257 0.09 281.288);
   border: none;
-  border-radius: 10px;
   color: white;
   padding: 15px 32px;
   width: 100px;
@@ -212,4 +217,18 @@ td, th {
 
 tr:nth-child(even) {
   background-color: oklch(44.6% 0.043 257.281);
+}
+
+/* .character-banner {
+  grid
+} */
+
+.header-items {
+  display: grid;
+  width: 800px;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 5fr;
+  grid-column: 2/3;
+  align-items: center;
+  text-align: center;
+  color: white;
 }

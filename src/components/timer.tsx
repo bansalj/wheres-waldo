@@ -1,9 +1,9 @@
 export default function Timer({ seconds, minutes }) {
     return (
         <>
-            <h1 className="timer">
+            <h2 className="timer" style={{overflow:"auto"}}>
                 Time: {minutes}:{seconds}s
-            </h1>
+            </h2>
         </>
     )
 }

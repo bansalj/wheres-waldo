@@ -53,7 +53,7 @@ export default function Root() {
     
             return () => {clearInterval(interval)};
 
-    },[pathname])
+    },[pathname, minutes])
 
 
     return (
@@ -62,7 +62,19 @@ export default function Root() {
                     <nav className="main-text" style={{textDecoration:'none', fontSize:'30px'}} ><Link to={'/'} style={{textDecoration:'none', color:'white'}}>WHERES WALDO</Link>
                     </nav>
                     {pathname != '/' ? (
-                        <Timer minutes={minutes} seconds={seconds}/>
+                        <div style={{display:"grid", gridTemplateColumns: "1fr 1fr", alignItems: "center"}}>
+                            <div className="header-items">
+                                <h3>Waldo:</h3>
+                                <img src="waldo.jpg" alt="waldo" style={{width:"50px", height: "50px"}} />
+                                <h3>Wenda:</h3>
+                                <img src="wenda.jpg" alt="waldo" style={{width:"50px", height: "50px"}} />
+                                <h3>Yeti:</h3>
+                                <img src="yeti.jpg" alt="waldo" style={{width:"50px", height: "50px"}} />
+                        </div>
+                            <Timer minutes={minutes} seconds={seconds}/>
+                        </div>
+                        
+                        
                     ) : (
                         <>
                         </>
